@@ -194,20 +194,6 @@ npm run e2e.live
 ```
 You can learn more about [Protractor Interactive Mode here](https://github.com/angular/protractor/blob/master/docs/debugging.md#testing-out-protractor-interactively)
 
-## Framework How-Tos
-
-### i18n
-
-* how to add a language?
-  - `src/client/assets/i18n/`
-    - add `[language code].json` (copy existing one and adapt the translation strings)
-  - `src/client/app/frameworks/app/services/app-config.service.spec.ts`
-    - fix test
-  - `src/client/app/frameworks/app/services/app-config.service.ts`
-    - add language to `SUPPORTED_LANGUAGES`
-  - `src/client/app/frameworks/i18n/components/lang-switcher.component.spec.ts`
-    - fix test
-
 ## Web Configuration Options
 
 Default application server configuration
@@ -224,6 +210,20 @@ Configure at runtime
 ```bash
 npm start -- --port 8080 --reload-port 4000 --base /my-app/
 ```
+
+## Framework How-Tos
+
+### i18n
+
+* how to add a language?
+  - `src/client/assets/i18n/`
+    - add `[language code].json` (copy existing one and adapt the translation strings)
+  - `src/client/app/frameworks/app/services/app-config.service.spec.ts`
+    - fix test
+  - `src/client/app/frameworks/app/services/app-config.service.ts`
+    - add language to `SUPPORTED_LANGUAGES`
+  - `src/client/app/frameworks/i18n/components/lang-switcher.component.spec.ts`
+    - fix test
 
 ## Change Detection OnPush Note
 
@@ -264,7 +264,7 @@ This ensures that when the same code is run in the {N} app, the native `dialogs`
 
 The advice I like to give is:
 
-> Code with web mentality first. Then provide the native capability using Angular’s `{provide: SomeWebService, useClass: SomeNativeService }` during boostrap.
+> Code with web mentality first. Then provide the native capability using Angular’s `{provide: SomeWebService, useClass: SomeNativeService }` during bootstrap.
 
 There are some cases where you may want to use `useValue` vs. `useClass`, and other times may need to use `useFactory`. Read [the Angular docs here to learn more about which you may need for your use case](https://angular.io/docs/ts/latest/cookbook/dependency-injection.html#!#provide).
 
@@ -278,19 +278,19 @@ Several branches exist with certain features integrated:
 
 #### Setup
 
+*NOTE*: This should be done first before you start making any changes and building out your project. Not doing so will likely result in dificulty when trying to merge in upstream changes later.
+
 1. Download a zip of the seed. (**Do not fork**)
 2. `npm run git.setup` - This will initialize `git` as well as setup `upstream` properly.
 3. `git remote add origin ...your private repo...`
 4. `npm run git.prepare` - This will prepare git to handle the merge
 5. `npm run git.merge` - This will fetch upstream and run the first merge (*Important)
   * IMPORTANT: You will see a wall of Conflicts after doing above (a Conflict for every single file). This is normal. There actually will not be any problematic conflicts as it's just reporting every single file which both sides (`upstream` and your first commit) added.
-6. `git add .; git commit -m'ready'`. Yes, you will be committing all those conflicts, which actually are not a problem in this 1 time case.
+6. `git add .; git commit -m'ready'`. **Yes**, you will be committing all those conflicts, which actually are not a problem in this 1 time case.
 7. Now you have `git` setup and ready to develop your application as well as merge in upstream changes in the future.
 8. `npm install` (and all other usage docs in this `README` apply)
 9. Create a new `framework` for your application in `src/client/app/frameworks` to build your codebase out. Say your app is called `AwesomeApp`, then create `awesomeapp` and start building out all your components and services in there. Create other frameworks as you see fit to organize.
 10. If you don't want an integration that comes out of box with this seed; for example. let's say you don't want to use i18n. Then just delete the `i18n`, remove `ng2-translate` as dependency root `package.json` and `nativescript/package.json`. Then remove any references to `i18n` throughout.
-
-You can read more about [configuring a remote for a fork here](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
 
 #### Merging latest upstream changes
 
